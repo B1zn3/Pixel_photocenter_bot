@@ -1,0 +1,5 @@
+api_token = '6835801883:AAEayNMv1mbCEcStWmDsfBjmbYLTog1C8dU'
+
+ADMIN_ID = 2095893055
+
+

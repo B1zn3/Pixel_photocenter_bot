@@ -1,0 +1,154 @@
+from aiogram import Dispatcher, executor, Bot, types
+from api import api_token
+from aiogram.types import InlineKeyboardButton, InlineKeyboardMarkup
+
+# Создание клавиатуры
+ikb = InlineKeyboardMarkup(row_width=2)
+ikb_2 = InlineKeyboardMarkup()
+ib_1 = InlineKeyboardButton(text='Печать фото', callback_data='photo')
+ib_2 = InlineKeyboardButton(text='Фото на документы', callback_data='documentphoto')
+ib_3 = InlineKeyboardButton(text='Фотоподарки', callback_data='photopresent')
+ib_4 = InlineKeyboardButton(text='Фотохолсты', callback_data='photoholst')
+ib_5 = InlineKeyboardButton(text='Наши контакты', callback_data='contact')
+ib_6 = InlineKeyboardButton(text='Задать дополнительные вопросы', callback_data='questions')
+ib_7 = InlineKeyboardButton(text='Сделать заказ', callback_data='do_zakaz')
+Return_but = InlineKeyboardButton(text='Главное меню', callback_data='otmena')
+# Создание кнопок
+ikb.add(ib_1, ib_2)
+ikb.add(ib_3, ib_4)
+ikb.add(ib_5, ib_6)
+ikb.add(ib_7)
+
+ikb_2.add(Return_but)
+
+
+
+# Создание бота
+bot = Bot(api_token)
+dp = Dispatcher(bot)
+
+
+# Функция которая выводит на экран 'Bot start', если бот стартанул
+async def on_startup(_):
+    print('Bot start')
+
+
+
+# start   
+@dp.message_handler(commands=['start'])
+async def start(message: types.Message):
+    await bot.send_message(message.from_user.id, text='''Вас приветствует телеграм бот фотостудии <b>Pixel</b>
+Выберите пункт который вас интересует: ''', reply_markup=ikb, parse_mode='HTML')
+
+# Печать фото
+@dp.callback_query_handler(text='photo')
+async def photo(message: types.Message):
+    await bot.send_message(chat_id=message.from_user.id, text='''Цены по интересующему вас товару:
+Прайс на печать фотографий:
+
+Формат 10х15 (А6) глянец
+от 1 до 49шт. - 0.50коп.
+от 50 до 99шт. - 0.45коп.
+от 100 до 199шт. 0.40коп.
+от 200 до ∞ шт. - 0.35коп.
+
+Формат 15х21 (А5)
+Глянец/Мат - 2р.
+
+Формат 21х30 (А4)
+Глянец/Мат - 3р.
+
+Фотографии в стиле Polaroid
+от 1 до 14шт. - 1р.
+от 15 до 29шт. - 0,90коп
+от 30 до ∞ шт. - 0,80коп.
+
+———————————————
+❗Доп. услуги:❗
+
+Ксерокопия/Распечатка ЧБ
+0.50коп. (односторонняя)
+0.60коп. (двусторонняя)
+
+Ксерокопия/Распечатка Цвет - 1р. (обычная бумага)''', reply_markup=ikb_2)
+
+
+
+# Фото на документы
+@dp.callback_query_handler(text='documentphoto')
+async def documentphoto(message: types.Message):
+    await bot.send_message(chat_id=message.from_user.id, text='''Цены по интересующему вас товару:
+Размеры:
+• 3х4 (6шт) студенческий, мед. комиссия
+• 3,5х4,5 (4шт) виза Шенген 
+• 4х5 (4шт) паспорт РБ
+• Green card
+
+10р . (время изготовления 10 минут)
+
+——————————————————
+
+• Изготовление фотографии с носителя заказчика 
+• Фото на документы детей до 1 года
+
+15р. (время изготовления 15-20 минут)''', reply_markup=ikb_2)
+
+# Фотоподарки
+@dp.callback_query_handler(text='photopresent')
+async def photopresent(message: types.Message):
+    await bot.send_message(chat_id=message.from_user.id, text='''Цены по интересующему вас товару:''')
+
+# Фотохолсты
+@dp.callback_query_handler(text='photoholst')
+async def photoholst(message: types.Message):
+    await bot.send_message(chat_id=message.from_user.id, text='''Цены по интересующему вас товару:
+Прайс фото на холсте:
+30х30 - 49р
+30х40 - 52р.
+30х50 - 55р.
+40х40 - 58р.
+40х50 - 62р.
+40х60 - 65р.
+50х50 - 68р.
+50х75 - 79р.
+60х60 - 88р. 
+60х90 - 94р. 
+70х70 - 100р.
+70х90 - 110р.
+70х100 - 120р.
+
+Время изготовления 3-4 дня.''', reply_markup=ikb_2)
+
+
+
+# Контакты
+@dp.callback_query_handler(text='contact')
+async def contact(message: types.Message):
+    await bot.send_message(chat_id=message.from_user.id, text='''Цены по интересующему вас товару:''')
+
+
+
+# questions
+@dp.callback_query_handler(text='questions')
+async def questions(message: types.Message):
+    await bot.send_message(chat_id=message.from_user.id, text='''Цены по интересующему вас товару:''')
+
+
+
+# do_zakaz
+@dp.callback_query_handler(text='do_zakaz')
+async def do_zakaz(message: types.Message):
+    await bot.send_message(chat_id=message.from_user.id, text='''Цены по интересующему вас товару:''')
+
+
+# Otmena
+@dp.callback_query_handler(text='otmena')
+async def otmena(message: types.Message):
+    await bot.send_message(chat_id=message.from_user.id, text='<b>Главное меню:</b>', reply_markup=ikb, parse_mode='HTML')
+
+
+# Запуск бота
+if __name__ == '__main__':
+    executor.start_polling(dp,
+                        skip_updates=True,
+                        on_startup=on_startup)

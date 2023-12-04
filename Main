@@ -5,6 +5,8 @@ from aiogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 # Создание клавиатуры
 ikb = InlineKeyboardMarkup(row_width=2)
 ikb_2 = InlineKeyboardMarkup()
+ikb_3 = InlineKeyboardMarkup(row_width=2)
+ikb_4 = InlineKeyboardMarkup()
 ib_1 = InlineKeyboardButton(text='Печать фото', callback_data='photo')
 ib_2 = InlineKeyboardButton(text='Фото на документы', callback_data='documentphoto')
 ib_3 = InlineKeyboardButton(text='Фотоподарки', callback_data='photopresent')
@@ -12,7 +14,15 @@ ib_4 = InlineKeyboardButton(text='Фотохолсты', callback_data='photohol
 ib_5 = InlineKeyboardButton(text='Наши контакты', callback_data='contact')
 ib_6 = InlineKeyboardButton(text='Задать дополнительные вопросы', callback_data='questions')
 ib_7 = InlineKeyboardButton(text='Сделать заказ', callback_data='do_zakaz')
+Otmena_but = InlineKeyboardButton(text='Назад', callback_data='Nazad')
 Return_but = InlineKeyboardButton(text='Главное меню', callback_data='otmena')
+Present_btn_1 = InlineKeyboardButton(text='Кружки', callback_data='mug')
+Present_btn_2 = InlineKeyboardButton(text='Бутылки и стаканы', callback_data='Bottles and glasses')
+Present_btn_3 = InlineKeyboardButton(text='Текстиль', callback_data='Textile')
+Present_btn_4 = InlineKeyboardButton(text='Аксессуары', callback_data='Accessories')
+Present_btn_5 = InlineKeyboardButton(text='Шары с фото', callback_data='Balloons with photo')
+Present_btn_6 = InlineKeyboardButton(text='Календари', callback_data='Calendars')
+
 # Создание кнопок
 ikb.add(ib_1, ib_2)
 ikb.add(ib_3, ib_4)
@@ -21,7 +31,12 @@ ikb.add(ib_7)
 
 ikb_2.add(Return_but)
 
+ikb_3.add(Present_btn_1, Present_btn_2)
+ikb_3.add(Present_btn_3, Present_btn_4)
+ikb_3.add(Present_btn_5, Present_btn_6)
+ikb_3.add(Return_but)
 
+ikb_4.add(Otmena_but)
 
 # Создание бота
 bot = Bot(api_token)
@@ -40,6 +55,12 @@ async def start(message: types.Message):
     await bot.send_message(message.from_user.id, text='''Вас приветствует телеграм бот фотостудии <b>Pixel</b>
 Выберите пункт который вас интересует: ''', reply_markup=ikb, parse_mode='HTML')
 
+# start   
+@dp.message_handler(commands=['main'])
+async def start(message: types.Message):
+    await bot.send_message(message.from_user.id, text='''Выберите пункт который вас интересует: ''', 
+reply_markup=ikb)
+    
 # Печать фото
 @dp.callback_query_handler(text='photo')
 async def photo(message: types.Message):
@@ -93,10 +114,80 @@ async def documentphoto(message: types.Message):
 
 15р. (время изготовления 15-20 минут)''', reply_markup=ikb_2)
 
+
 # Фотоподарки
 @dp.callback_query_handler(text='photopresent')
 async def photopresent(message: types.Message):
-    await bot.send_message(chat_id=message.from_user.id, text='''Цены по интересующему вас товару:''')
+    await bot.send_message(chat_id=message.from_user.id, text='Выберите категорию подарка:', reply_markup=ikb_3)
+
+# mug
+@dp.callback_query_handler(text='mug')
+async def photopresent(message: types.Message):
+    await bot.send_message(chat_id=message.from_user.id, text='''Кружки (+ нанесение): 
+• Белая (330мл) - 12р. 
+• Цветная внутри (330мл) - 14р. 
+• Белая (420мл) - 15р. 
+• Цветная внутри (420мл) - 16р. 
+• Черный хамелеон (330мл) - 17р. 
+• Кружка Латте (500мл) - 20р''', reply_markup=ikb_4)
+
+# Bottles and glasses
+@dp.callback_query_handler(text='Bottles and glasses')
+async def photopresent(message: types.Message):
+    await bot.send_message(chat_id=message.from_user.id, text=''' Бутылки и стаканы (+нанесение):
+• Термостакан металл/белая (480мл) - 45р.
+• Термокружка (500мл) - 32р.
+• Спортивная бутылка металл/белая (600мл) - 30р.
+• Бокал пивной (500мл) - 25р.
+• Бокал для вина - от 15р. ''', reply_markup=ikb_4)
+
+# Textile
+@dp.callback_query_handler(text='Textile')
+async def photopresent(message: types.Message):
+    await bot.send_message(chat_id=message.from_user.id, text=''' Текстиль (+ нанесение):
+• Футболка черная/белая - от 35р.
+❗цена зависит от размера принта❗
+• Фартук черный - от 30р.
+• Шоппер белый/черный - 20р.
+• Толстовка - от 100р.
+• Свитшот - от 90р.
+• Подушка - от 30р.
+• Нанесение на изделие заказчика - от 15р. ''', reply_markup=ikb_4)
+
+# Accessories
+@dp.callback_query_handler(text='Accessories')
+async def photopresent(message: types.Message):
+    await bot.send_message(chat_id=message.from_user.id, text=''' Аксессуары:
+• Кожаная обложка для автодокументов
+• Газовая зажигалка с принтом - 45р.
+• Магнит 5,2х7,7см - 3р. (акриловый)
+• Магнит 6,5х6,5см - 3р. (акриловый)
+• Магнит 10х10см - 4р. (акриловый)
+• Магнит 6х13,3см - 4р. (акриловый)
+• Рамка-магнит акриловый 11х8см - 4р.
+• Брелок акриловый 4х5,6 - 3р.
+• Металл. брелок с гос. номером - 13р.
+• Жетон металл (серебро/белый) - 13р. ''', reply_markup=ikb_4)
+
+# Balloons with photo
+@dp.callback_query_handler(text='Balloons with photo')
+async def photopresent(message: types.Message):
+    await bot.send_message(chat_id=message.from_user.id, text=''' Шары с фото:
+• Шар со снегом/с сердечками - 25р.
+• Шар в форме сердца (с сердечками) - 25р.
+• Елочный шар с фото  (стекло) - 15р.
+(золото, серебро, зеленый, розовый, красный, голубой)
+• Елочный шар с фото (пластик) с мишурой внутри - 15р.
+(серебро, золото, красный, зеленый, блестящий)
+• Елочный шар прозрачный, фото с двух сторон (пластик) - 13р. ''', reply_markup=ikb_4)
+
+# Calendars 
+@dp.callback_query_handler(text='Calendars')
+async def photopresent(message: types.Message):
+    await bot.send_message(chat_id=message.from_user.id, text=''' Календари:
+Календарь квартальный с фото - 15р.
+Календарь новогодний А4 - 12р.''', reply_markup=ikb_4) 
+
 
 # Фотохолсты
 @dp.callback_query_handler(text='photoholst')
@@ -144,8 +235,19 @@ async def do_zakaz(message: types.Message):
 # Otmena
 @dp.callback_query_handler(text='otmena')
 async def otmena(message: types.Message):
-    await bot.send_message(chat_id=message.from_user.id, text='<b>Главное меню:</b>', reply_markup=ikb, parse_mode='HTML')
+    await bot.send_message(chat_id=message.from_user.id, text='Выберите пункт который вас интересует:', reply_markup=ikb)
 
+# Nazad
+@dp.callback_query_handler(text='Nazad')
+async def photopresent(message: types.Message):
+    await bot.send_message(chat_id=message.from_user.id, text='Выберите покатегорию подарка:', reply_markup=ikb_3)
+
+# start   
+@dp.message_handler()
+async def start(message: types.Message):
+    await bot.send_message(message.from_user.id, text='''К сожалению ваша команда не была распознана.
+Войдите в главное меню и попробуйте снова.
+Для этого пропишите /main или нажмите на кнопку ⬇''', reply_markup=ikb_2)
 
 # Запуск бота
 if __name__ == '__main__':
